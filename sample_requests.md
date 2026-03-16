@@ -16,6 +16,16 @@ curl -X POST http://localhost:8080/api/users/register \
 }'
 ```
 
+### Login a User
+```bash
+curl -X POST http://localhost:8080/api/users/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "jane@example.com",
+  "password": "securepassword123"
+}'
+```
+
 ---
 
 ## 2. Bank Account Module

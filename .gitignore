@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Portable Maven
+apache-maven-*/
+maven.zip
