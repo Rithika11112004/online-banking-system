@@ -1,0 +1,232 @@
+{
+    "info": {
+        "_postman_id": "c7ac3bd2-bb44-48f8-b11c-d784dfb5db4f",
+        "name": "Online Banking System",
+        "description": "API collection to easily test the Online Banking System. Replace the `{{baseUrl}}` variable with your Gitpod or Localhost URL.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "1. User Module",
+            "item": [
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"phone\": \"9876543210\",\n  \"password\": \"securepassword123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/users/register",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"jane@example.com\",\n  \"password\": \"securepassword123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/users/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "2. Complete Flow (Account & Transactions)",
+            "item": [
+                {
+                    "name": "Create Bank Account",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/accounts?userId=1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "accounts"
+                            ],
+                            "query": [
+                                {
+                                    "key": "userId",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Deposit Money",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/transactions/deposit?accountNumber=REPLACE_WITH_ACCOUNT_NUM&amount=500.00",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "transactions",
+                                "deposit"
+                            ],
+                            "query": [
+                                {
+                                    "key": "accountNumber",
+                                    "value": "REPLACE_WITH_ACCOUNT_NUM",
+                                    "description": "Copy your account number from the Create Bank Account response"
+                                },
+                                {
+                                    "key": "amount",
+                                    "value": "500.00"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Check Balance",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/accounts/REPLACE_WITH_ACCOUNT_NUM",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "accounts",
+                                "REPLACE_WITH_ACCOUNT_NUM"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Withdraw Money",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/transactions/withdraw?accountNumber=REPLACE_WITH_ACCOUNT_NUM&amount=100.00",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "transactions",
+                                "withdraw"
+                            ],
+                            "query": [
+                                {
+                                    "key": "accountNumber",
+                                    "value": "REPLACE_WITH_ACCOUNT_NUM"
+                                },
+                                {
+                                    "key": "amount",
+                                    "value": "100.00"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Transfer Money",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"fromAccountNumber\": \"REPLACE_SOURCE_ACCOUNT\",\n  \"toAccountNumber\": \"REPLACE_TARGET_ACCOUNT\",\n  \"amount\": 150.00\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/transactions/transfer",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "transactions",
+                                "transfer"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "View Transaction History",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/transactions/REPLACE_WITH_ACCOUNT_NUM",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "transactions",
+                                "REPLACE_WITH_ACCOUNT_NUM"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8080",
+            "type": "string"
+        }
+    ]
+}
