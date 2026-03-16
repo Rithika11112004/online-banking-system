@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexBank - Premium Online Banking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <div class="app-container">
+
+        <!-- Auth View -->
+        <div id="auth-view" class="view active">
+            <div class="glass-panel text-center auth-box">
+                <h1 class="brand-logo">Nex<span>Bank</span></h1>
+                <p class="subtitle">Experience the future of seamless finance.</p>
+
+                <div class="auth-tabs">
+                    <button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Login</button>
+                    <button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Register</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" id="login-email" required placeholder="name@example.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="login-pwd" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" id="reg-name" required placeholder="John Doe">
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" id="reg-email" required placeholder="john@example.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="reg-phone" required placeholder="123-456-7890">
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="reg-pwd" required placeholder="Create a strong password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view hidden">
+            <!-- Header -->
+            <header class="glass-panel dashboard-header">
+                <div>
+                    <h1 class="brand-logo-small">Nex<span>Bank</span></h1>
+                    <p class="greeting">Welcome back, <span id="user-display-name">User</span></p>
+                </div>
+                <div>
+                    <button class="btn btn-text" onclick="handleLogout()">Sign Out</button>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="dashboard-col">
+                    <!-- Balance Card -->
+                    <div class="glass-panel card-balance">
+                        <div class="card-header">
+                            <h3>Total Balance</h3>
+                            <button id="refresh-btn" class="btn-icon" onclick="refreshDashboard()"
+                                title="Refresh Dashboard">↻</button>
+                        </div>
+                        <h2 class="balance-amount">$<span id="account-balance">0.00</span></h2>
+                        <div class="account-pill">Acc: <span id="account-number">-------</span></div>
+
+                        <div class="quick-actions">
+                            <button class="btn btn-outline" onclick="showModal('deposit-modal')">Deposit</button>
+                            <button class="btn btn-outline" onclick="showModal('withdraw-modal')">Withdraw</button>
+                        </div>
+                    </div>
+
+                    <!-- Transfer Card -->
+                    <div class="glass-panel card-transfer">
+                        <h3>Quick Transfer</h3>
+                        <form id="transfer-form" onsubmit="handleTransfer(event)">
+                            <div class="input-group">
+                                <label>Destination Account Number</label>
+                                <input type="text" id="transfer-target" required placeholder="e.g. A3B9F2CD45">
+                            </div>
+                            <div class="input-group">
+                                <label>Amount ($)</label>
+                                <input type="number" step="0.01" min="1" id="transfer-amount" required
+                                    placeholder="0.00">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Send Money</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="dashboard-col">
+                    <div class="glass-panel card-transactions">
+                        <div class="card-header">
+                            <h3>Recent Transactions</h3>
+                        </div>
+                        <div class="transaction-list" id="transaction-list">
+                            <!-- Transactions populated by JS -->
+                            <div class="empty-state">No transactions yet.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modals -->
+    <div id="deposit-modal" class="modal-backdrop hidden">
+        <div class="glass-panel modal-content">
+            <h3>Deposit Money</h3>
+            <form onsubmit="handleDeposit(event)">
+                <div class="input-group">
+                    <label>Amount ($)</label>
+                    <input type="number" step="0.01" min="1" id="deposit-amount" required placeholder="0.00">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-text" onclick="hideAllModals()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Deposit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="withdraw-modal" class="modal-backdrop hidden">
+        <div class="glass-panel modal-content">
+            <h3>Withdraw Money</h3>
+            <form onsubmit="handleWithdraw(event)">
+                <div class="input-group">
+                    <label>Amount ($)</label>
+                    <input type="number" step="0.01" min="1" id="withdraw-amount" required placeholder="0.00">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-text" onclick="hideAllModals()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Withdraw</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
